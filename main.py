@@ -13,9 +13,10 @@ if __name__ == "__main__":
     db_name = os.getenv('NET_ALCH_DB_NAME')
     DSN = f"postgresql://{login}:{password}@{host}:{port}/{db_name}"
     engine = sq.create_engine(DSN)
-    dbapi.create_tables(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
+    serv = dbapi.Service(engine)
+    serv.create_tables()
 
     # Load data from json (Task 3)
     with open('fixtures/tests_data.json', 'r') as fd:
